@@ -8,26 +8,15 @@ on:
         description: "version (no `v` prefix)"
         required: true
         default: "1.0.0"
-
 jobs:
-  publish:
-    name: Publish Limitador crate to crates.io
+  build:
+    name: Release create
     runs-on: ubuntu-latest
     steps:
-      - uses: abelfodil/protoc-action@v1
-        with:
-          protoc-version: '3.19.4'
-      - uses: supercharge/redis-github-action@1.1.0
-        with:
-          redis-version: 5
-      - uses: actions/checkout@v4
-        with:
-          ref: crate-v${{ github.event.inputs.version }}
-      - name: Build
-        run: cargo build --verbose --release
-      - name: Check
-        run: cargo fmt --all -- --check && cargo clippy -- -D warnings
-      - name: Run tests
-        run: cargo test --verbose
-      - name: Publish
-        run: cargo publish --token ${{ secrets.CARGO_REGISTRY_TOKEN }} -p limitador:${{ github.event.inputs.version }}
+      - name: Echo inputs
+        run: |
+          echo "version: ${{ inputs.version }}"
+
+      - name: Sleep for x seconds
+        run: sleep 10
+
